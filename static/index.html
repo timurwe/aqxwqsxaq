@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram Mini App</title>
+    <script src="https://telegram.org"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--tg-theme-bg-color, #ffffff);
+            color: var(--tg-theme-text-color, #000000);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .user-card {
+            background-color: var(--tg-theme-secondary-bg-color, #f0f0f0);
+            padding: 15px;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 300px;
+            margin-bottom: 20px;
+        }
+        button {
+            background-color: var(--tg-theme-button-color, #2481cc);
+            color: var(--tg-theme-button-text-color, #ffffff);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Профиль пользователя</h2>
+    
+    <div class="user-card">
+        <p><strong>ID:</strong> <span id="user-id">Загрузка...</span></p>
+        <p><strong>Имя:</strong> <span id="first-name">Загрузка...</span></p>
+        <p><strong>Username:</strong> <span id="username">Загрузка...</span></p>
+    </div>
+    <button id="close-btn">Закрыть приложение</button>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+        const user = tg.initDataUnsafe?.user;
+
+        if (user) {
+            document.getElementById('user-id').textContent = user.id || 'Не указан';
+            document.getElementById('first-name').textContent = user.first_name || 'Не указано';
+            document.getElementById('username').textContent = user.username ??  'Отсутствует';
+        } else {
+            document.getElementById('user-id').textContent = 'Разработано вне Telegram';
+        }
+
+        document.getElementById('close-btn').addEventListener('click', () => {
+            tg.close();
+        });
+    </script>
+</body>
+</html>
