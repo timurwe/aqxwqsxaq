@@ -1,29 +1,39 @@
-tasks_db = []
+tasks_db = {}
 
-current_id = 1
+_task_id_counter = 1
 
-def get_all_tasks():
-    return tasks_db
+def get_tasks(user_id: int):
+    user_id = int(user_id)
+    return tasks_db.get(user_id, [])
 
-def add_tasks(title:str, deadline:str, chat_id:int):
-    global current_id
+def add_tasks(title: str, deadline: str, user_id: int):
+    global _task_id_counter
+    user_id = int(user_id)
+
+    if user_id not in tasks_db:
+        tasks_db[user_id] = []
 
     new_task = {
-        "id": current_id,
+        "id": _task_id_counter,
         "title": title,
         "deadline": deadline,
-        "chat_id": chat_id,
-        "compileted": False,
+        "user_id": user_id,
+        "is_completed": False,
         "notified": False
     }
 
-    tasks_db.append(new_task)
-    current_id += 1
+    tasks_db[user_id].append(new_task)
+    _task_id_counter += 1
     return new_task
 
-def mark_task_completed(task_id: int):
-    for task in tasks_db:
-        if task["id"] == task_id:
-            task["completed"] = True
-            return task
-        return None
+def mark_task_completed(user_id: int, task_id: int):
+    user_id = int(user_id)
+    task_id = int(task_id)
+
+    if user_id in tasks_db:
+        for task in tasks_db[user_id]:
+            if task["id"] == task_id:
+                task["is_completed"] = True
+                return task
+
+    return None
