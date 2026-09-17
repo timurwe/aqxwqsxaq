@@ -5,8 +5,11 @@ from pydantic import BaseModel
 import os
 import database
 from schedular import start_scheduler
+from pathlib import Path
 
 app = FastAPI(title="ToDo Telegramn Mini APP")
+
+BASE_DIR = Path(__file__).resolve().parent
 
 @app.on_event("startup")
 def on_startup():
@@ -45,5 +48,5 @@ def complete_task(task_id:int):
 app.mount("/static", StaticFiles(directory="status"), name="status")
 
 @app.get("/")
-def serve_frontend():
-    return FileResponse("/static/index.html")
+async def serve_frontend():
+    return FileResponse(BASE_DIR/"static"/"index.html")
