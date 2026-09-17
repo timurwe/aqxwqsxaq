@@ -5,7 +5,7 @@ current_id = 1
 def get_all_tasks():
     return task_db
 
-def add_task(title:str, deadline:str, chat_id:int):
+def add_tasks(title:str, deadline:str, chat_id:int):
     global current_id
 
     new_task = {

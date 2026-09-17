@@ -1,10 +1,8 @@
 from datetime import datetime
 from apscheduler.schedulers.background import BackgroundScheduler
-from datetime import tasks_db
+from database import tasks_db
 from bot import send_telegram_message
 
-
-from datetime import datetime
 
 def check_deadlines():
     now_str = datetime.now().strftime("%H:%M")
