@@ -6,7 +6,7 @@ from bot import send_telegram_message
 
 def check_deadlines():
     now_str = datetime.now().strftime("%H:%M")
-    
+
     for chat_id, tasks in tasks_db.items():
         for task in tasks:
             if not task["is_completed"] and not task["notified"]:
